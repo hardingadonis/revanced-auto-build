@@ -1,24 +1,67 @@
-# Revanced Build
-This repo template will allow you to build ReVanced using Github Actions. This will helps people who don't want to setup build environments on their machines.
+# Revanced Auto Build
+[![Auto release Revanced](https://github.com/hardingadonis/revanced-auto-build/actions/workflows/auto-release.yml/badge.svg)](https://github.com/hardingadonis/revanced-auto-build/actions/workflows/auto-release.yml)
+[![Repository size](https://img.shields.io/github/repo-size/hardingadonis/revanced-auto-build)](https://github.com/hardingadonis/revanced-auto-build) 
 
-## Notes
-- The script will download the **selected compatible version**([see here](versions.json)) of Youtube on APKMirror, **NOT** latest official version on Google Play.
-- Under **NO CIRCUMSTANCES** any APKs will be uploaded to this repository to avoid DMCA.
+> Auto build *Revanced (non-root)* for individual with GitHub Actions 😎😎
 
-## How to setup
-1. Fork or create a new repository using this repository as a template ([Guide](https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-repository-from-a-template)). DO NOT FORK if you need to set the new repo to private.
-2. That's it! You can now build ReVanced using Github Actions.
+## Requirements
+- OS: Windows, MacOS or Linux.
+- Tools:
+    - Python >= 3.10
+    - JDK >= 17
 
-## Customize your build
-If you wish to continue with the default settings, you may skip this step.
+## Setup
+- Step 1: Clone this repository
+```shell
+git clone https://github.com/hardingadonis/revanced-auto-build.git
+cd revanced-auto-build
+```
+- Step 2: Install **virtualenv**
+```shell
+pip install virtualenv
+```
+- Step 3: Install Python libraries
+```shell
+virtualenv .venv
+".venv/Scripts/activate"
+pip install -r requirements.txt
+```
+- Step 4: Run Python script
+```shell
+python auto-build.py
+```
 
-All supported ReVanced apps are built by default by the script. If you wish to modify this behaviour and build only the apps that you specify, edit the 'build.targets' file with your preferred text editor. For the apps that you wish to be built, set the value of variable associated with the app to "true". Any variable with a value that is not "true" will be skip the associated app from being built.
+## Development
+> Just for those who want to build more Revanced apps.
 
-For example, if you wish to skip TikTok ReVanced from being built, change the value of TIKTOK_NONROOT to "false".
+List all apps that Revanced support: [link](https://github.com/revanced/revanced-patches).
 
-By default this will build ReVanced apps with ALL available patches. Follow [this guide](PATCHES_GUIDE.md) to exclude/customizing patches for your build.
+To add more app for building, check [packages.yml](packages.yml)
 
-## How to build
-1. Go to Actions -> All workflows -> ReVanced Build ([Example](images/workflow_run.png))
-2. Run the `build` workflow (try to use `experimental_build` if the logs show not all patches applied correctly while revanced is not yet released)
-3. Download the APKs from the draft releases ([Example](images/build_release.png))
+Template:
+```yaml
+<the package name>:
+  - version: <your version that you want to build>
+  - uptodown: <link to download APK file from uptodown>
+  - exclude_options:
+    - <option 1>
+    - <option 2>
+```
+
+For example:
+```yaml
+com.google.android.youtube:
+  - version: 18.16.37
+  - uptodown: https://youtube.en.uptodown.com/android/download/101361605
+  - exclude_options:
+    - vanced-microg-support
+```
+
+
+## License
+
+GPL-3.0 License,
+
+Copyright (c) 2023 [Minh Vương](https://github.com/hardingadonis).
+
+This repository is forked from [n0k0m3/revanced-build-template](https://github.com/n0k0m3/revanced-build-template), that also under **GPL-3.0 License**.
